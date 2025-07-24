@@ -16,6 +16,9 @@ import (
 // @Router /palette [get]
 func PaletteHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(constants.ColorsPalette)
 
+	if err := json.NewEncoder(w).Encode(constants.ColorsPalette); err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
 }
