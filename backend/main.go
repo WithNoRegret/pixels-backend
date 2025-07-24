@@ -20,9 +20,8 @@ import (
 func main() {
 	router := mux.NewRouter()
 
-	router.StrictSlash(true)
-
 	router.HandleFunc("/", handlers.HomeHandler).Methods("GET")
+	router.HandleFunc("/palette", handlers.PaletteHandler).Methods("GET")
 	router.HandleFunc("/palette/", handlers.PaletteHandler).Methods("GET")
 
 	router.PathPrefix("/swagger/").Handler(httpSwagger.Handler(
