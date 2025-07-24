@@ -20,6 +20,8 @@ import (
 func main() {
 	router := mux.NewRouter()
 
+	router.StrictSlash(false)
+
 	router.HandleFunc("/", handlers.HomeHandler).Methods("GET")
 	router.HandleFunc("/palette/", handlers.PaletteHandler).Methods("GET")
 
