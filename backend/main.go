@@ -23,11 +23,15 @@ func main() {
 	router.HandleFunc("/", handlers.HomeHandler).Methods("GET")
 	router.HandleFunc("/palette/", handlers.PaletteHandler).Methods("GET")
 
-	http.HandleFunc("/swagger/", httpSwagger.Handler(httpSwagger.URL("/swagger/doc.json")))
-	log.Println("Server starting on :8080")
-	log.Fatal(http.ListenAndServe(":8080", ghandlers.CORS(
+	router.PathPrefix("/swagger/").Handler(httpSwagger.Handler(
+		httpSwagger.URL("/swagger/doc.json"),
+	)).Methods("GET")
+	corsHandler := ghandlers.CORS(
 		ghandlers.AllowedOrigins([]string{"*"}),
 		ghandlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
 		ghandlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),
-	)(router)))
+	)
+
+	log.Println("Server starting on :8080")
+	log.Fatal(http.ListenAndServe(":8080", corsHandler(router)))
 }
