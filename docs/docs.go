@@ -61,7 +61,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "backend.battling-pixels.ru",
-	BasePath:         "/api/v1",
+	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Pixel Battle API",
 	Description:      "API for Pixel Battle game",

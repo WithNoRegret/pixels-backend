@@ -7,7 +7,7 @@
         "version": "1.0"
     },
     "host": "backend.battling-pixels.ru",
-    "basePath": "/api/v1",
+    "basePath": "/",
     "paths": {
         "/palette": {
             "get": {
