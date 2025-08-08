@@ -22,9 +22,9 @@ func main() {
 
 	router.HandleFunc("/", handlers.HomeHandler).Methods("GET")
 
-	router.HandleFunc("/palette/", handlers.PaletteHandler).Methods("GET")
+	router.HandleFunc("/palette", handlers.PaletteHandler).Methods("GET")
 
-	router.PathPrefix("/swagger/").Handler(httpSwagger.Handler())
+	router.PathPrefix("/swagger").Handler(httpSwagger.Handler())
 
 	corsHandler := ghandlers.CORS(
 		ghandlers.AllowedOrigins([]string{"*"}),
