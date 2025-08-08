@@ -21,11 +21,11 @@ func main() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/", handlers.HomeHandler).Methods("GET")
-	router.HandleFunc("/palette", handlers.PaletteHandler).Methods("GET")
+
 	router.HandleFunc("/palette/", handlers.PaletteHandler).Methods("GET")
 
-	router.PathPrefix("/swagger/").Handler(httpSwagger.Handler()).Methods("GET")
-	
+	router.PathPrefix("/swagger/").Handler(httpSwagger.Handler())
+
 	corsHandler := ghandlers.CORS(
 		ghandlers.AllowedOrigins([]string{"*"}),
 		ghandlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
