@@ -14,7 +14,7 @@ func ConnectToMongo() *mongo.Client {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	uri := "mongodb://admin:" + os.Getenv("MONGO_DB_PASSWORD") + "@mongodb:27017/pixels?authSource=admin?ssl=false"
+	uri := "mongodb://admin:" + os.Getenv("MONGO_DB_PASSWORD") + "@mongodb:27017/pixels?authSource=admin&authMechanism=SCRAM-SHA-256"
 
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(uri))
 	if err != nil {
