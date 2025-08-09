@@ -1,55 +1,57 @@
 package constants
 
-import "pixel-battle-backend/models"
+import (
+	"pixel-battle-backend/api"
+)
 
-var ColorsPalette = []models.Color{
+var ColorsPalette = []api.Color{
 	{
-		ID:      1,
+		Id:      1,
 		Name:    "Red",
 		HexCode: "#FF0000",
 	},
 	{
-		ID:      2,
+		Id:      2,
 		Name:    "Green",
 		HexCode: "#00FF00",
 	},
 	{
-		ID:      3,
+		Id:      3,
 		Name:    "Blue",
 		HexCode: "#0000FF",
 	},
 	{
-		ID:      4,
+		Id:      4,
 		Name:    "Yellow",
 		HexCode: "#FFFF00",
 	},
 	{
-		ID:      5,
+		Id:      5,
 		Name:    "Orange",
 		HexCode: "#FFA500",
 	},
 	{
-		ID:      6,
+		Id:      6,
 		Name:    "Purple",
 		HexCode: "#800080",
 	},
 	{
-		ID:      7,
+		Id:      7,
 		Name:    "Pink",
 		HexCode: "#FFC0CB",
 	},
 	{
-		ID:      8,
+		Id:      8,
 		Name:    "Black",
 		HexCode: "#000000",
 	},
 	{
-		ID:      9,
+		Id:      9,
 		Name:    "White",
 		HexCode: "#FFFFFF",
 	},
 	{
-		ID:      10,
+		Id:      10,
 		Name:    "Gray",
 		HexCode: "#808080",
 	},

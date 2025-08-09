@@ -3,7 +3,7 @@ package db
 import (
 	"context"
 	"log"
-	"pixel-battle-backend/models"
+	"pixel-battle-backend/api"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -44,7 +44,7 @@ func InitBoard(client *mongo.Client) error {
 
 	var board []interface{}
 	for i := 1; i <= 10000; i++ {
-		board = append(board, models.Pixel{
+		board = append(board, api.Pixel{
 			Index: i,
 			Color: 9,
 		})

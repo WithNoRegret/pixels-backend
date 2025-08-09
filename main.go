@@ -4,11 +4,11 @@ import (
 	"log"
 	"net/http"
 
+	"pixel-battle-backend/api"
 	"pixel-battle-backend/db"
 	"pixel-battle-backend/handlers"
 
 	ghandlers "github.com/gorilla/handlers"
-	"github.com/gorilla/mux"
 )
 
 func main() {
@@ -22,13 +22,8 @@ func main() {
 		log.Fatal("❌ Ошибка при инициализации доски:", err)
 	}
 
-	router := mux.NewRouter()
-	router.StrictSlash(true)
-
-	router.HandleFunc("/palette", handlers.PaletteHandler).Methods("GET")
-
-	boardHandler := handlers.BoardHandler(client)
-	router.HandleFunc("/board", boardHandler).Methods("GET")
+	apiImpl := &handlers.APIImpl{Client: client}
+	router := api.Handler(apiImpl)
 
 	corsHandler := ghandlers.CORS(
 		ghandlers.AllowedOrigins([]string{"*"}),

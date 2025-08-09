@@ -1,42 +1,33 @@
 package handlers
 
 import (
-	"encoding/json"
+	"context"
 	"log"
-	"net/http"
-	"pixel-battle-backend/models"
+
+	"pixel-battle-backend/api"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func BoardHandler(client *mongo.Client) http.HandlerFunc {
+func GetBoardData(client *mongo.Client) ([]api.Pixel, error) {
 	collection := client.Database("pixels").Collection("pixels")
 
-	return func(w http.ResponseWriter, r *http.Request) {
-		cursor, err := collection.Find(r.Context(), bson.M{}, options.Find().SetSort(bson.D{{Key: "index", Value: 1}}))
-		if err != nil {
-			log.Println("❌ Ошибка при получении доски:", err)
-			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-			return
-		}
-		defer cursor.Close(r.Context())
-
-		var board []models.Pixel
-		err = cursor.All(r.Context(), &board)
-		if err != nil {
-			log.Println("❌ Ошибка при парсинге данных:", err)
-			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-			return
-		}
-
-		w.Header().Set("Content-Type", "application/json")
-		err = json.NewEncoder(w).Encode(board)
-		if err != nil {
-			log.Println("❌ Ошибка при отправке json:", err)
-			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-			return
-		}
+	cursor, err := collection.Find(context.Background(), bson.M{},
+		options.Find().SetSort(bson.D{{Key: "index", Value: 1}}))
+	if err != nil {
+		log.Println("❌ Ошибка при получении доски:", err)
+		return nil, err
 	}
+	defer cursor.Close(context.Background())
+
+	var board []api.Pixel
+	err = cursor.All(context.Background(), &board)
+	if err != nil {
+		log.Println("❌ Ошибка при парсинге данных:", err)
+		return nil, err
+	}
+
+	return board, nil
 }

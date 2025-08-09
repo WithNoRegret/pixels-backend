@@ -1,0 +1,103 @@
+openapi: 3.0.3
+info:
+  title: Pixel Battle API
+  version: 1.0.0
+  description: API for Pixel Battle game
+
+servers:
+  - url: https://backend.battling-pixels.ru
+
+components:
+  schemas:
+    Color:
+      type: object
+      required:
+        - id
+        - name
+        - hexCode
+      properties:
+        id:
+          type: integer
+          minimum: 1
+          maximum: 10
+          example: 9
+          description: Уникальный идентификатор цвета (1–10)
+        name:
+          type: string
+          example: "Белый"
+          description: Название цвета
+        hexCode:
+          type: string
+          pattern: "^#[0-9A-F]{6}$"
+          example: "#FFFFFF"
+          description: HEX-код цвета в формате #RRGGBB
+
+    Pixel:
+      type: object
+      required:
+        - index
+        - color
+      properties:
+        index:
+          type: integer
+          minimum: 1
+          maximum: 10000
+          example: 5042
+          description: Позиция пикселя на доске (1–10000)
+        color:
+          type: integer
+          minimum: 1
+          maximum: 10
+          example: 7
+          description: ID цвета (ссылка на /colors)
+
+paths:
+  /palette:
+    get:
+      summary: Получить палитру цветов
+      description: Возвращает список всех доступных цветов с их ID и HEX-кодами
+      operationId: getPalette
+      responses:
+        '200':
+          description: Список цветов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Color'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal Server Error"
+
+  /board:
+    get:
+      summary: Получить состояние всей доски
+      description: Возвращает массив из 10000 пикселей с их индексами и цветами
+      operationId: getBoard
+      responses:
+        '200':
+          description: Полное состояние доски
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pixel'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal Server Error"
