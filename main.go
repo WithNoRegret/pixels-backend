@@ -4,27 +4,17 @@ import (
 	"log"
 	"net/http"
 
-	_ "pixel-battle-backend/docs"
 	"pixel-battle-backend/handlers"
 
 	ghandlers "github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	httpSwagger "github.com/swaggo/http-swagger"
 )
 
-// @title Pixel Battle API
-// @version 1.0
-// @description API for Pixel Battle game
-// @host backend.battling-pixels.ru
-// @BasePath /
 func main() {
 	router := mux.NewRouter()
-
-	router.HandleFunc("/", handlers.HomeHandler).Methods("GET")
+	router.StrictSlash(true)
 
 	router.HandleFunc("/palette", handlers.PaletteHandler).Methods("GET")
-
-	router.PathPrefix("/swagger").Handler(httpSwagger.Handler())
 
 	corsHandler := ghandlers.CORS(
 		ghandlers.AllowedOrigins([]string{"*"}),
