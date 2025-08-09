@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"pixel-battle-backend/models"
@@ -26,6 +27,14 @@ func BoardHandler(client *mongo.Client) http.HandlerFunc {
 		err = cursor.All(r.Context(), &board)
 		if err != nil {
 			log.Println("❌ Ошибка при парсинге данных:", err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		err = json.NewEncoder(w).Encode(board)
+		if err != nil {
+			log.Println("❌ Ошибка при отправке json:", err)
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
 		}
