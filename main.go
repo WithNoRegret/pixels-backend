@@ -30,15 +30,9 @@ func main() {
 	apiImpl := &handlers.APIImpl{Client: client}
 	api.HandlerFromMux(apiImpl, r)
 
-	r.PathPrefix("/swagger/").Handler(httpSwagger.Handler(
-		httpSwagger.URL("/api/spec.yaml"),
+	r.PathPrefix("/swagger").Handler(httpSwagger.Handler(
+		httpSwagger.URL("/swagger/doc.json"),
 	)).Methods("GET")
-
-	r.HandleFunc("/swagger", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/swagger/", http.StatusMovedPermanently)
-	}).Methods("GET")
-
-	r.Path("/api/spec.yaml").Handler(http.FileServer(http.Dir("."))).Methods("GET")
 
 	corsHandler := ghandlers.CORS(
 		ghandlers.AllowedOrigins([]string{"*"}),
@@ -46,6 +40,6 @@ func main() {
 		ghandlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),
 	)
 
-	log.Println("Server starting on :8080")
+	log.Println("🚀 Server starting on :8080")
 	log.Fatal(http.ListenAndServe(":8080", corsHandler(r)))
 }
