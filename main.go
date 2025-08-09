@@ -38,7 +38,7 @@ func main() {
 		http.Redirect(w, r, "/swagger/", http.StatusMovedPermanently)
 	}).Methods("GET")
 
-	r.Path("/api/spec.yaml").Handler(http.StripPrefix("/", http.FileServer(http.Dir(".")))).Methods("GET")
+	r.Path("/api/spec.yaml").Handler(http.FileServer(http.Dir("."))).Methods("GET")
 
 	corsHandler := ghandlers.CORS(
 		ghandlers.AllowedOrigins([]string{"*"}),
