@@ -21,13 +21,14 @@ jobs:
             cd /root/go-server/backend
             git fetch origin
             git reset --hard origin/main
-            cd ..
 
-            cat > .env << EOF
+            cat > ../.env << EOF
             CERTBOT_EMAIL=${{ secrets.CERTBOT_EMAIL }}
             DOMAIN_URI=${{ secrets.DOMAIN_URI }}
-            MONGO_DB_PASSWORD=${{ secrets.MONGO_DB_PASSWORD }}
+            MONGO_ROOT_PASSWORD=${{ secrets.MONGO_DB_PASSWORD }}
             EOF
+
+            cp ../.env ./
 
             docker compose down --remove-orphans
             docker compose up -d --build
